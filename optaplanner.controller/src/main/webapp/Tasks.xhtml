@@ -1,0 +1,578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<meta name="description" content="Optaplanner service"></meta>
+	<meta name="author" content="Martin Maga"></meta>
+	<meta charset="utf-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/img/favicon.ico" />
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="bootstrap-responsive.min.css" />
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+		rel="stylesheet" />
+	<style>
+</style>
+</h:head>
+<h:body>
+	<f:view>
+
+		<div class="container">
+			<h:form>
+				<nav class="navbar navbar-default navbar-fixed-top"
+					role="navigation">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Planning System</a>
+					</div>
+
+
+					<div class="collapse navbar-collapse"
+						id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown #{AdministratorBean.activeTask}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Tasks</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<h:panelGroup layout="block" rendered="#{AdministratorBean.renderTab1}"><li><h:commandLink action="#{AdministratorBean.setCreateTask}">
+									
+											<i class="fa fa-pencil fa-fw">Create Task</i>
+										</h:commandLink></li></h:panelGroup>
+									<li><h:commandLink action="#{AdministratorBean.setViewTask}">
+											<i class="fa fa-home fa-fw">View Tasks</i>
+										</h:commandLink></li>
+
+								</ul></li>
+							<h:panelGroup layout="block"
+								rendered="#{AdministratorBean.renderTab}">
+								<li class="#{AdministratorBean.activeEdit}"><h:commandLink action="#{AdministratorBean.setEdit}">
+										<i class="fa fa-bars"> Edit Task</i>
+										<span></span>
+									</h:commandLink></li>
+							</h:panelGroup>
+						    <h:panelGroup layout="block" rendered="#{AdministratorBean.renderTab2}" >
+							<li class="dropdown #{AdministratorBean.activeOrganization}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Organizations</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setCreateOrg}">
+											<i class="fa fa-pencil fa-fw">Create Organization</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setViewOrg}">
+											<i class="fa fa-home fa-fw">View Organizations</i>
+										</h:commandLink></li>
+
+								</ul></li></h:panelGroup>
+								<h:panelGroup layout="block" rendered="#{AdministratorBean.renderTab2}" >
+							<li class="dropdown #{AdministratorBean.activeUsers}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Users</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setCreateUser}">
+											<i class="fa fa-pencil fa-fw">Create User</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setViewUsers}">
+											<i class="fa fa-home fa-fw">View Users</i>
+										</h:commandLink></li>
+
+								</ul></li></h:panelGroup>
+									<li class="dropdown #{AdministratorBean.activeProperties}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> User's properties</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setChangePass}">
+											<i class="fa fa-pencil fa-fw">Change Password</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setChangeEmail}">
+											<i class="fa fa-home fa-fw">Change Email</i>
+										</h:commandLink></li>
+
+								</ul></li>
+
+						</ul>
+
+						<ul class="nav navbar-nav navbar-right">
+							<li><h:outputLabel>
+									<i class="fa fa-user fa-fw">User:</i>
+								</h:outputLabel></li>
+							<li><h:outputText
+									value="#{AdministratorBean.loggedUsername}" /></li>
+							<li style="visibility: hidden;">Pomocny Text velmi dlhy</li>
+							<li><h:commandButton class="btn btn-default btn-lg"
+									value="  Logout" action="#{AdministratorBean.logout}"></h:commandButton></li>
+
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid --> </nav>
+
+				<div class="masthead">
+					<div style="visibility: hidden">
+						<ul class="nav nav-tabs nav-justified" id="MyTab">
+							<li><a href="#task" data-toggle="tab"><i
+									class="fa fa-home fa-fw"></i>Tasks</a></li>
+							<li><a href="#createtask" data-toggle="tab"><i
+									class="fa fa-pencil fa-fw"></i>Create Task</a></li>
+							<h:panelGroup layout="block"
+								rendered="#{AdministratorBean.renderTab}">
+								<li><a href="#edittask" data-toggle="tab"><i
+										class="fa fa-pencil fa-fw"></i>Edit Task</a></li>
+							</h:panelGroup>
+							<li><a href="#usermanagement" data-toggle="tab"><i
+									class="fa fa-book fa-fw"></i>User Management</a></li>
+
+							<li><a href="#organizationmanagement" data-toggle="tab"><i
+									class="fa fa-book fa-fw"></i>Organization Management</a></li>
+							<li><a href="#changepassword" data-toggle="tab"><i
+									class="fa fa-pencil fa-fw"></i>Change Password</a></li>
+
+						</ul>
+					</div>
+
+
+
+
+
+				</div>
+
+
+
+
+
+			</h:form>
+<br></br>
+<br></br>
+<br></br>
+
+		 <div class="row" >
+          <div class="col-lg-6" >
+            <div class="well bs-component" >
+              <h:form>
+                <fieldset>
+                  <legend>Find Task</legend>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                      
+											<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-search"></i></span>
+										<h:inputText type="text" class="form-control" required="true"
+											requiredMessage="Select string to find" id="taskOption"
+											value="#{AdministratorBean.nieco}" style="width: 60%;"/>
+									</div>
+									<h:message for="taskOption" style="color:red;" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Type</label>
+                    <div class="col-lg-10">
+                    <br></br>
+                      	<rich:select defaultLabel="Select type"
+											value="#{AdministratorBean.findOption}" required="true" requiredMessage="Select Type" id="findId">
+											<f:selectItem itemValue="ID" itemLabel="ID" />
+											<f:selectItem itemValue="Permission" itemLabel="Permission" />
+											<f:selectItem itemValue="Owner" itemLabel="Owner" />
+											<f:selectItem itemValue="Name" itemLabel="Name" />
+											<f:selectItem itemValue="State" itemLabel="State" />
+										</rich:select>
+										
+                     
+                    </div>
+                    <h:message for="findId" style="color:red;" />
+                  </div>
+                  
+               
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                       <br></br>
+                     <h:commandButton class="btn btn-default btn-lg" value="Find"
+											action="#{AdministratorBean.findList}" type="submit"/>
+											<h:commandButton class="btn btn-default btn-lg" style="margin-left:10px;"
+												value="Cancel"
+												action="#{AdministratorBean.saveActionTask()}" />
+                    </div>
+                    <h:outputText value="#{AdministratorBean.result}"
+											rendered="#{AdministratorBean.renderResult}" />
+                  </div>
+                </fieldset>
+                </h:form>
+            </div>
+          </div>
+          </div>
+        
+</div>
+		<h:form>
+						<a4j:region>
+							<h:form>
+								<a4j:poll id="poll33"
+									action="#{AdministratorBean.updateTasks()}" interval="2000"
+									render="editUser,poll33,scroller" eventsQueue="foo"
+									enabled="#{AdministratorBean.renderPoll}">
+
+								</a4j:poll>
+							</h:form>
+
+						</a4j:region>
+					</h:form>
+					<h:form>
+						<div class="container">
+							<div class="table-responsive">
+								<h:dataTable value="#{AdministratorBean.task}" var="o"
+									class="table table-hover" id="editUser"
+									rows="#{AdministratorBean.renderRow}">
+
+									<h:column>
+
+										<f:facet name="header">
+
+											<h:commandLink action="#{AdministratorBean.sortById}">
+
+												<h:outputText value="ID"></h:outputText>
+											</h:commandLink>
+
+										</f:facet>
+										<h:outputText value="#{o.id}"></h:outputText>
+
+									</h:column>
+									<h:column>
+
+										<f:facet name="header">
+
+											<h:commandLink action="#{AdministratorBean.sortByName}">
+												<h:outputText value="Name"></h:outputText>
+											</h:commandLink>
+
+										</f:facet>
+
+
+										<h:outputText value="#{o.name}" />
+
+									</h:column>
+
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+
+												<h:commandLink action="#{AdministratorBean.sortByState}">
+													<h:outputText value="State"></h:outputText>
+												</h:commandLink>
+
+											</h:column>
+										</f:facet>
+										<h:outputText value="#{o.state}"></h:outputText>
+									</h:column>
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+												<h:outputText value="Progress"></h:outputText>
+											</h:column>
+										</f:facet>
+										<rich:progressBar interval="100" value="#{o.progress}"
+											label="#{o.progress} %"></rich:progressBar>
+
+
+									</h:column>
+
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+
+												<h:commandLink action="#{AdministratorBean.sortByETA}">
+													<h:outputText value="ETA"></h:outputText>
+												</h:commandLink>
+
+											</h:column>
+										</f:facet>
+
+										<h:outputText value="#{o.estimatedTime}"></h:outputText>
+
+									</h:column>
+
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+
+												<h:commandLink
+													action="#{AdministratorBean.sortByPermission}">
+													<h:outputText value="Permission"></h:outputText>
+												</h:commandLink>
+
+											</h:column>
+										</f:facet>
+										<h:outputText value="#{o.ifPublic}"
+											rendered="#{not o.renderCommand}"></h:outputText>
+										<strong><h:outputLink value="#{o.link}"
+												rendered="#{ o.renderCommand}" target="_blank">
+												<h:outputText value="#{o.ifPublic}" />
+
+											</h:outputLink> </strong>
+
+
+									</h:column>
+
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+
+												<h:commandLink action="#{AdministratorBean.sortByOwner}">
+													<h:outputText value="Owner"></h:outputText>
+												</h:commandLink>
+
+											</h:column>
+										</f:facet>
+										<h:outputText value="#{o.owner}"></h:outputText>
+
+
+
+									</h:column>
+
+									<h:column>
+
+										<f:facet name="header">
+											<h:column>
+												<h:outputText value="Actions"></h:outputText>
+											</h:column>
+										</f:facet>
+										<h:panelGrid columns="6">
+
+											<h:commandButton class="btn btn-default" value="Edit Task"
+												action="#{AdministratorBean.editXmlFile(o)}"
+												rendered="#{o.renderEdit}" />
+											<a4j:commandButton styleClass="btn btn-default"
+												value="Stop task" action="#{AdministratorBean.stopTask(o)}"
+												rendered="#{o.renderStop}"
+												oncomplete="$('#myModal5').modal('show')"
+												data-toggle="modal" data-target="#myModal5" />
+											<a4j:commandButton styleClass="btn btn-default"
+												value="Run task" action="#{AdministratorBean.runTask(o)}"
+												rendered="#{o.renderRun}"
+												oncomplete="$('#myModal4').modal('show')"
+												data-toggle="modal" data-target="#myModal4" />
+
+
+											<a4j:commandButton styleClass="btn btn-default"
+												value="delete task"
+												oncomplete="$('#myModal33').modal('show')"
+												data-toggle="modal" data-target="#myModal33"
+												rendered="#{o.renderDelete}"
+												action="#{AdministratorBean.deleteTask(o)}" />
+
+
+											<a4j:commandButton styleClass="btn btn-default"
+												value="UnPublish Task"
+												action="#{AdministratorBean.unpublishTask(o)}"
+												rendered="#{o.renderUnpublish}" data-toggle="modal"
+												data-target="#myModal2"
+												oncomplete="$('#myModal2').modal('show')" />
+											<a4j:commandButton styleClass="btn btn-default"
+												value="Publish Task"
+												action="#{AdministratorBean.publishTask(o)}"
+												oncomplete="$('#myModal3').modal('show')"
+												rendered="#{o.renderPublish}" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										</h:panelGrid>
+									</h:column>
+
+								</h:dataTable>
+
+							</div>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="myModal33" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">close</button>
+										<h4 class="modal-title" id="myModalLabel">Information</h4>
+									</div>
+									<div class="modal-body">
+										Are you sure that you want to delete this Task ?
+										<table style="border-spacing: 5px; border-collapse: separate;">
+											<tr>
+												<td><a4j:commandButton value="Yes"
+														styleClass="btn btn-default"
+														oncomplete="$('#myModal33').modal('hide')"
+														action="#{AdministratorBean.deleteTaskSpec()}" /></td>
+												<td><a4j:commandButton styleClass="btn btn-default"
+														value="No" oncomplete="$('#myModal33').modal('hide')" /></td>
+											</tr>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">close</button>
+										<h4 class="modal-title" id="myModalLabel">Information</h4>
+									</div>
+									<div class="modal-body">Task has been published. Click on
+										the blue link in the column "Permission" in the same row to
+										show page.</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">close</button>
+										<h4 class="modal-title" id="myModalLabel">Information</h4>
+									</div>
+									<div class="modal-body">Task has been unpublished.</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal4" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">close</button>
+										<h4 class="modal-title" id="myModalLabel">Information</h4>
+									</div>
+									<div class="modal-body">Task has been running.</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal5" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">close</button>
+										<h4 class="modal-title" id="myModalLabel">Information</h4>
+									</div>
+									<div class="modal-body">Task has been stopped.</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+						<div class="container">
+							<div class="table-responsive">
+								<table class="table">
+									<tr>
+										<td><rich:dataScroller for="editUser"
+												page="#{AdministratorBean.page}" id="scroller2" maxPages="5"
+												reRender="editUser,scroller2" boundaryControls="show"
+												fastControls="hide" stepControls="show"
+												onbegin="#{AdministratorBean.scroller}" /></td>
+									</tr>
+
+									
+
+
+
+
+								</table>
+							</div>
+						</div>
+					</h:form>
+
+		<h:outputScript library="js" name="jquery-2.1.0.js" />
+		<h:outputScript library="js" name="bootstrap.js" />
+	</f:view>
+
+
+
+</h:body>
+</html>

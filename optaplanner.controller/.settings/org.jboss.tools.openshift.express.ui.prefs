@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.jboss.tools.openshift.ApplicationId=5362db74e0b8cd96e800005a
+org.jboss.tools.openshift.ApplicationName=optaplanner
+org.jboss.tools.openshift.Connection=https\://xmagam00%40stud.fit.vutbr.cz@
+org.jboss.tools.openshift.DeployFolder=deployments
+org.jboss.tools.openshift.Domain=xmagam00
+org.jboss.tools.openshift.RemoteName=openshift

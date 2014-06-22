@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<meta charset="utf-8"></meta>
+<link rel="icon" type="image/x-icon" href="#{request.contextPath}/resources/img/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="description" content="Optaplanner service"></meta>
+    <meta name="author" content="Martin Maga"></meta>
+
+  <h:outputStylesheet library="css" name="bootstrap.css"  />
+  <h:outputStylesheet library="css" name="bootstrap-responsive.min.css"  />
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee !important;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<title>Optaplanner.Controller</title>
+
+
+</h:head>
+<h:body class="preview" data-offset="80" data-spy="scroll" data-target=".subnav" id="top">
+
+
+
+
+
+
+
+
+
+
+
+
+    
+ <div class="container">
+
+	
+		<h:form id="loginForm" class="form-signin" role="form">
+    
+        <h2 class="form-signin-heading">Please sign in</h2>
+		
+				
+						
+							<h:outputLabel value="Username" for="username" />
+									<div class="input-group"><span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+								<h:inputText type="text" placeholder="Username" class="form-control" id="userName" value="#{credentials.username}" required="true" requiredMessage="Please Enter Username" validator="#{LoginBean.checkUsername}"/></div><h:outputText value="Unknown user" style="color:red;" rendered="#{LoginBean.usernameValid}" />
+								<br></br>
+							
+			
+							<h:outputLabel value="Password" for="password" />
+									<div class="input-group"><span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+								<h:inputSecret type="text" placeholder="Username" class="form-control" id="password" value="#{credentials.password}" required="true" requiredMessage="Please Enter Password" validator="#{LoginBean.checkPassword}"/></div><h:outputText value="Unknown password" style="color:red;" rendered="#{LoginBean.passwordValid}" />
+							<h:message for="userName" style="color: red;" />
+							
+		
+			
+				<br></br>
+							<h:commandButton class="btn btn-lg btn-default btn-block" action="#{identity.login}" valueChangeListener="#{LoginBean.preRenderView}" value="Sign in">	  </h:commandButton>
+						
+			
+			</h:form>
+     </div>
+   
+
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <h:outputScript library="js" name="bootstrap.js"  />
+</h:body>
+</html>
+
+
+
+

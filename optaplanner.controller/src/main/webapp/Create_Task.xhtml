@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<meta name="description" content="Optaplanner service"></meta>
+	<meta name="author" content="Martin Maga"></meta>
+	<meta charset="utf-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/img/favicon.ico" />
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="bootstrap-responsive.min.css" />
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+		rel="stylesheet" />
+	<style>
+</style>
+</h:head>
+<h:body>
+	<f:view>
+
+		<div class="container">
+			<h:form>
+				<nav class="navbar navbar-default navbar-fixed-top"
+					role="navigation">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Planning System</a>
+					</div>
+
+
+					<div class="collapse navbar-collapse"
+						id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown #{AdministratorBean.activeTask}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Tasks</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setCreateTask}">
+											<i class="fa fa-pencil fa-fw">Create Task</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setViewTask}">
+											<i class="fa fa-home fa-fw">View Tasks</i>
+										</h:commandLink></li>
+
+								</ul></li>
+							<h:panelGroup layout="block"
+								rendered="#{AdministratorBean.renderTab}">
+								<li class="#{AdministratorBean.activeEdit}"><h:commandLink action="#{AdministratorBean.setEdit}">
+										<i class="fa fa-bars"> Edit Task</i>
+										<span></span>
+									</h:commandLink></li>
+							</h:panelGroup>
+							<li class="dropdown #{AdministratorBean.activeOrganization}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Organizations</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setCreateOrg}">
+											<i class="fa fa-pencil fa-fw">Create Organization</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setViewOrg}">
+											<i class="fa fa-home fa-fw">View Organizations</i>
+										</h:commandLink></li>
+
+								</ul></li>
+							<li class="dropdown #{AdministratorBean.activeUsers}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> Users</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setCreateUser}">
+											<i class="fa fa-pencil fa-fw">Create User</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setViewUsers}">
+											<i class="fa fa-home fa-fw">View Users</i>
+										</h:commandLink></li>
+
+								</ul></li>
+									<li class="dropdown #{AdministratorBean.activeProperties}"><a class="dropdown-toggle"
+								data-toggle="dropdown" href="#" id="themes"><i
+									class="fa fa-bars"> User's properties</i><span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="themes">
+									<li><h:commandLink action="#{AdministratorBean.setChangePass}">
+											<i class="fa fa-pencil fa-fw">Change Password</i>
+										</h:commandLink></li>
+									<li><h:commandLink action="#{AdministratorBean.setChangeEmail}">
+											<i class="fa fa-home fa-fw">Change Email</i>
+										</h:commandLink></li>
+
+								</ul></li>
+
+						</ul>
+
+						<ul class="nav navbar-nav navbar-right">
+							<li><h:outputLabel>
+									<i class="fa fa-user fa-fw">User:</i>
+								</h:outputLabel></li>
+							<li><h:outputText
+									value="#{AdministratorBean.loggedUsername}" /></li>
+							<li style="visibility: hidden;">Pomocny Text</li>
+							<li><h:commandButton class="btn btn-default btn-lg"
+									value="  Logout" action="#{AdministratorBean.logout}"></h:commandButton></li>
+
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid --> </nav>
+
+				<div class="masthead">
+					<div style="visibility: hidden">
+						<ul class="nav nav-tabs nav-justified" id="MyTab">
+							<li><a href="#task" data-toggle="tab"><i
+									class="fa fa-home fa-fw"></i>Tasks</a></li>
+							<li><a href="#createtask" data-toggle="tab"><i
+									class="fa fa-pencil fa-fw"></i>Create Task</a></li>
+							<h:panelGroup layout="block"
+								rendered="#{AdministratorBean.renderTab}">
+								<li><a href="#edittask" data-toggle="tab"><i
+										class="fa fa-pencil fa-fw"></i>Edit Task</a></li>
+							</h:panelGroup>
+							<li><a href="#usermanagement" data-toggle="tab"><i
+									class="fa fa-book fa-fw"></i>User Management</a></li>
+
+							<li><a href="#organizationmanagement" data-toggle="tab"><i
+									class="fa fa-book fa-fw"></i>Organization Management</a></li>
+							<li><a href="#changepassword" data-toggle="tab"><i
+									class="fa fa-pencil fa-fw"></i>Change Password</a></li>
+
+						</ul>
+					</div>
+
+
+
+
+
+				</div>
+
+
+
+
+
+			</h:form>
+<br></br>
+<br></br>
+<br></br>
+
+		 <div class="row" >
+          <div class="col-lg-6" >
+            <div class="well bs-component">
+              <h:form>
+                <fieldset>
+                  <legend>Find Task</legend>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                      <div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+										<h:inputText type="text" class="form-control"
+											value="#{AdministratorBean.name}" id="name" required="true"
+											requiredMessage="Enter Name of Task" style="width: 60%;"/>
+											<h:message style="color:red;" for="name" />
+                    </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Type</label>
+                    <div class="col-lg-10">
+                      	<rich:select defaultLabel="Select type"
+											value="#{AdministratorBean.findOption}">
+											<f:selectItem itemValue="ID" itemLabel="ID" />
+											<f:selectItem itemValue="Permission" itemLabel="Permission" />
+											<f:selectItem itemValue="Owner" itemLabel="Owner" />
+											<f:selectItem itemValue="Name" itemLabel="Name" />
+											<f:selectItem itemValue="State" itemLabel="State" />
+										</rich:select>
+                     
+                    </div>
+                  </div>
+                  <div class="form-group">
+                  <label for="inputPassword" class="col-lg-2 control-label">File</label><div style="margin-left:100px;">
+                   <rich:fileUpload
+										fileUploadListener="#{AdministratorBean.listener}" id="upload"
+										maxFilesQuantity="1" />
+                  </div>
+               
+               </div>
+                  
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                     <h:commandButton class="btn btn-default" value="Create task"
+										action="#{AdministratorBean.createTask()}" />
+                    </div>
+                  </div>
+                </fieldset>
+             </h:form>
+            </div>
+          </div>
+          </div>
+</div>
+	
+
+
+
+		<h:outputScript library="js" name="jquery-2.1.0.js" />
+		<h:outputScript library="js" name="bootstrap.js" />
+	</f:view>
+
+
+
+</h:body>
+</html>
