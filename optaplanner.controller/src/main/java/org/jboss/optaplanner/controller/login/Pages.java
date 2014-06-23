@@ -20,78 +20,54 @@ public interface Pages {
 		@ViewPattern("/index.xhtml")
 		INDEX,
 
-		@ViewPattern("/Tasks.xhtml")
-		@Administrator
-		@Planner
-		@Reader
-		@LoginView("/Login.xhtml")
-		@AccessDeniedView("/Login.xhtml")
-		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
-		ADMINISTRATOR,
 		
 		
-		@ViewPattern("/Create_Task.xhtml")
-		@Administrator
-		@Planner
-		@LoginView("/Login.xhtml")
-		@AccessDeniedView("/Login.xhtml")
-		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
-		TEST,
 		
-		@ViewPattern("/Change_Email.xhtml")
-		@Administrator
-		@Planner
-		@Reader
-		@LoginView("/Login.xhtml")
-		@AccessDeniedView("/Login.xhtml")
-		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
-		TEST2,
 		
-		@ViewPattern("/Change_Password.xhtml")
-		@Administrator
-		@Planner
-		@Reader
-		@LoginView("/Login.xhtml")
-		@AccessDeniedView("/Login.xhtml")
-		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
-		TEST3,
+
+		
+
+
+				
+	
+		
+	
+		
 		
 		@ViewPattern("/Create_Organization.xhtml")
 		@Administrator
 		@LoginView("/Login.xhtml")
 		@AccessDeniedView("/Login.xhtml")
 		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
+		PhaseIdType.INVOKE_APPLICATION })
 		TEST4,
-		
+
 		@ViewPattern("/Organizations.xhtml")
 		@Administrator
 		@LoginView("/Login.xhtml")
 		@AccessDeniedView("/Login.xhtml")
 		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
+		PhaseIdType.INVOKE_APPLICATION })
 		TEST5,
-		
-		
+
+
 		@ViewPattern("/Users.xhtml")
 		@Administrator
 		@LoginView("/Login.xhtml")
 		@AccessDeniedView("/Login.xhtml")
 		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
+		PhaseIdType.INVOKE_APPLICATION })
 		TEST6,
-		
+
 		@ViewPattern("/Create_User.xhtml")
 		@Administrator
 		@LoginView("/Login.xhtml")
 		@AccessDeniedView("/Login.xhtml")
 		@RestrictAtPhase({ PhaseIdType.RESTORE_VIEW,
-				PhaseIdType.INVOKE_APPLICATION })
+		PhaseIdType.INVOKE_APPLICATION })
 		TEST7,
+
+
 		
 		
 

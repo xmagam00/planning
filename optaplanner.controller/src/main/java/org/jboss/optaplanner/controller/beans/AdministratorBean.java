@@ -1,15 +1,11 @@
 package org.jboss.optaplanner.controller.beans;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +13,6 @@ import java.util.regex.Pattern;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -38,7 +33,6 @@ import org.richfaces.model.UploadedFile;
 
 @ManagedBean
 @RequestScoped
-@SuppressWarnings("unused")
 /**
  * This class handle page for role Administrator
  * @author martin
@@ -54,7 +48,6 @@ public class AdministratorBean {
 	private String renderEmailNot;
 	private String renderEmailValidate;
 	private List<UserDef> users;
-	private String email2;
 	private List<UserDef> oldUsers;
 	private String unrenderCommand;
 	private List<OrganizationDef> organizations;
@@ -68,10 +61,9 @@ public class AdministratorBean {
 	private int page2 = 1;
 	private int page3 = 1;
 	private String pass;
-	private String renderManagement;
-	private String renderCreate = "true";
+
 	private String passwordValidate = "true";
-	private String emailValidate;
+
 	private int test = 1;
 	private long idUser;
 
@@ -96,7 +88,7 @@ public class AdministratorBean {
 	private boolean findOperation3 = false;
 	private boolean sortRoleUser;
 	private boolean sortOrganizationUser;
-
+	private List<String> listConf;
 	private boolean sortIdOrganization;
 	private boolean sortNameOrganization;
 	private String activeEdit;
@@ -114,7 +106,7 @@ public class AdministratorBean {
 
 
 
-	private String user;
+	
 
 	private String renderArea;
 
@@ -161,7 +153,7 @@ public class AdministratorBean {
 
 	private String renderOrganization;
 
-	private boolean findOperation;
+	
 
 	private boolean findOperation2 = false;
 	private String renderRole;
@@ -194,7 +186,6 @@ public class AdministratorBean {
 	private String renderOption3;
 
 	private String renderFind3;
-	private User loggedUser;
 	private String loggedUsername;
 
 	private String loadFunction;
@@ -222,8 +213,6 @@ public class AdministratorBean {
 
 	private String renderRow3;
 	private String role;
-	private OptaPlannerWebServiceService service;
-	private OptaPlannerWebService serviceOperation;
 	private OptaPlannerWebServiceService s;
 	private OptaPlannerWebService ws;
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -237,6 +226,7 @@ public class AdministratorBean {
 	public void init() {
 
 		try {
+			listConf = new ArrayList<String>();
 			setActiveEdit("");
 			setActiveTask("active");
 			setActiveUsers("");
@@ -274,9 +264,9 @@ public class AdministratorBean {
 			String result = op.getUserById(Long.parseLong(user.getId()));
 			// show logged username
 			setLoggedUsername(result);
-			
+		
 			 roleLogged = op.getUserRole(getLoggedUsername());
-			if (roleLogged.equals("READER"))
+			if (roleLogged.equals("Reader"))
 			{
 				setRenderTab1("false");
 			}
@@ -284,7 +274,7 @@ public class AdministratorBean {
 			{
 				setRenderTab1("true");
 			}
-			if (roleLogged.equals("ADMINISTRATOR"))
+			if (roleLogged.equals("Administrator"))
 			{
 				setRenderTab2("true");
 			}
@@ -292,6 +282,7 @@ public class AdministratorBean {
 			setRenderTab2("false");
 			
 			}
+			System.out.println(roleLogged);
 			organizations = new ArrayList<OrganizationDef>();
 			task = new ArrayList<TaskDef>();
 			users = new ArrayList<UserDef>();
@@ -307,7 +298,7 @@ public class AdministratorBean {
 			}
 			// get all tasks
 			List<TaskDef> resultsTask = new ArrayList<TaskDef>();
-			if (roleLogged.equals("ADMINISTRATOR"))
+			if (roleLogged.equals("Administrator"))
 			{	
 				resultsTask = op.getAllTasks();
 			}
@@ -316,7 +307,7 @@ public class AdministratorBean {
 			{
 				 resultsTask = op.selectTaskByUserWithOrganization(getLoggedUsername());
 			}
-			if (roleLogged.equals("READER"))
+			if (roleLogged.equals("Reader"))
 			{
 				unrenderCommand = "false";
 			}
@@ -334,7 +325,7 @@ public class AdministratorBean {
 						renderPublish(obj[5].toString(), obj[2].toString()),
 						renderUnpublish(obj[5].toString()), renderEdit(obj[2]
 								.toString()), renderDelete(obj[2].toString()),
-						renderCommand(obj[5].toString())));
+						renderCommand(obj[5].toString()),obj[8].toString()));
 
 			}
 			int index=0;
@@ -972,7 +963,7 @@ public class AdministratorBean {
 	 * 
 	 * @return
 	 */
-	public String sortById() {
+	public String sortByType() {
 		sortIdTask = true;
 		sortOwnerTask = false;
 		sortNameTask = false;
@@ -988,7 +979,7 @@ public class AdministratorBean {
 				@Override
 				public int compare(TaskDef o1, TaskDef o2) {
 
-					return o1.getId().compareTo(o2.getId());
+					return o1.getType().compareTo(o2.getType());
 
 				}
 
@@ -1003,7 +994,7 @@ public class AdministratorBean {
 				@Override
 				public int compare(TaskDef o1, TaskDef o2) {
 
-					return o2.getId().compareTo(o1.getId());
+					return o2.getType().compareTo(o1.getType());
 
 				}
 
@@ -1093,8 +1084,8 @@ public class AdministratorBean {
 		List<TaskDef> org = new ArrayList<TaskDef>();
 		List<TaskDef> resultsOrg = new ArrayList<TaskDef>();
 		// get all tasks
-					List<TaskDef> resultsTask = new ArrayList<TaskDef>();
-					if (roleLogged.equals("ADMINISTRATOR"))
+					
+					if (roleLogged.equals("Administrator"))
 					{	
 						resultsOrg = op.getAllTasks();
 					}
@@ -1113,7 +1104,7 @@ public class AdministratorBean {
 							obj[5].toString(), obj[2].toString()),
 					renderUnpublish(obj[5].toString()), renderEdit(obj[2]
 							.toString()), renderDelete(obj[2].toString()),
-					renderCommand(obj[5].toString())));
+					renderCommand(obj[5].toString()),obj[8].toString()));
 
 		}
 		int index=0;
@@ -1141,7 +1132,7 @@ public class AdministratorBean {
 			} else {
 				sortAscending = true;
 			}
-			sortById();
+			sortByType();
 
 		}
 		if (sortNameTask == Boolean.TRUE) {
@@ -1676,7 +1667,7 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic())));
+							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
 
 				}
 				index++;
@@ -1699,7 +1690,7 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic())));
+							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
 
 				}
 
@@ -1725,7 +1716,7 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic())));
+							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
 
 				}
 
@@ -1750,7 +1741,7 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic())));
+							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
 
 				}
 				index++;
@@ -1773,7 +1764,7 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic())));
+							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
 
 				}
 				index++;
@@ -1870,7 +1861,7 @@ public class AdministratorBean {
 					renderUnpublish(this.task.get(2).getIfPublic()),
 					renderEdit(this.task.get(index).getState()),
 					renderDelete(this.task.get(index).getState()),
-					renderCommand(this.task.get(index).getIfPublic())));
+					renderCommand(this.task.get(index).getIfPublic()),this.task.get(index).getType()));
 			index++;
 
 		}
@@ -2395,10 +2386,7 @@ public class AdministratorBean {
 
 	}
 
-	public void editUser() {
-		long id = op.getIdUser(this.username);
-	}
-
+	
 	public void createTask() {
 		setRenderTab("false");
 		setLoadFunction("$('#MyTab li:eq(1) a').tab('show')");
@@ -2414,6 +2402,59 @@ public class AdministratorBean {
 		setXmlFile("");
 		setName("");
 
+		setRenderPoll("true");
+
+	}
+	
+	/**
+	 * Method create new type of planning problem
+	 */
+	public void createType() {
+		int items = 0;
+		String confStr = "<solver>";
+		setRenderTab("false");
+		setLoadFunction("$('#MyTab li:eq(1) a').tab('show')");
+
+		setRenderUpload("false");
+		String confFile = new String();
+		String droolsFile = new String();
+		Iterator<String> iterator = listConf.iterator();
+		while(iterator.hasNext()){
+			  String element = (String) iterator.next();
+			  items++;
+			}
+		System.out.println(items);
+		if (items != 2)
+		{
+			setRenderUpload("true");
+			listConf = new ArrayList<String>();
+			return;
+		}
+		items=0;
+		while(iterator.hasNext()){
+			  String element = (String) iterator.next();
+			 if (element.toLowerCase().contains(confStr.toLowerCase()))
+			 {
+				 
+				 break;
+				 
+			 }
+			 items++;
+			}
+		if (items == 0)
+		{
+			confFile = listConf.get(items);
+			droolsFile = listConf.get(items+1);
+		}
+		else
+		{
+			confFile = listConf.get(items);
+			droolsFile = listConf.get(items-1);
+		}
+		op.createType(getName(), confFile, droolsFile);
+		listConf = new ArrayList<String>();
+		setName("");
+		
 		setRenderPoll("true");
 
 	}
@@ -2515,6 +2556,16 @@ public class AdministratorBean {
 		setXmlFile(new String(item.getData()));
 
 	}
+	
+	public void listenerType(FileUploadEvent event) throws Exception {
+		
+		UploadedFile item = event.getUploadedFile();
+		
+		
+		listConf.add(new String(item.getData()));
+		
+
+	}
 
 	/**
 	 * method create new organization
@@ -2552,7 +2603,9 @@ public class AdministratorBean {
 		setOrgPoll("true");
 		setPage3(test);
 		List<OrganizationDef> org = new ArrayList<OrganizationDef>();
+		
 		List<OrganizationDef> resultsOrg = op.getOrganizations();
+		
 		for (Object item : resultsOrg) {
 			Object[] obj = (Object[]) item;
 			org.add(new OrganizationDef(obj[0].toString(), obj[1].toString(),
@@ -3395,37 +3448,7 @@ public class AdministratorBean {
 	public String getActiveProperties() {
 		return activeProperties;
 	}
-	private void setRenderManagement(String set)
-	{
-		this.renderManagement = set;
-	}
-	
-	private String getRenderManagement()
-	{
-		return renderManagement;
-	}
-	
-	private void setRenderCreate(String set)
-	{
-		this.renderCreate = set;
-	}
-	
-	private String getRenderCreate()
-	{
-		return renderCreate;
-	}
-	
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 	public void setRenderEmailValidate(String name) {
@@ -3444,10 +3467,6 @@ public class AdministratorBean {
 		return renderEmailNot;
 	}
 	
-	private String getEmailValidate()
-	{
-		return emailValidate;
-	}
 	
 	
 	

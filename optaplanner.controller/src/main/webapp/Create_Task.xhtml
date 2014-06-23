@@ -105,13 +105,14 @@
 
 						</ul>
 
+					
 						<ul class="nav navbar-nav navbar-right">
-							<li><h:outputLabel>
+							<li style="position:relative;left:-50px;">
 									<i class="fa fa-user fa-fw">User:</i>
-								</h:outputLabel></li>
+								</li>
 							<li><h:outputText
-									value="#{AdministratorBean.loggedUsername}" /></li>
-							<li style="visibility: hidden;">Pomocny Text</li>
+									value="#{AdministratorBean.loggedUsername}" style="font-weight:bold;" /></li>
+							<li style="display:none;">Pomocny Text velmi dlhy</li>
 							<li><h:commandButton class="btn btn-default btn-lg"
 									value="  Logout" action="#{AdministratorBean.logout}"></h:commandButton></li>
 
@@ -164,7 +165,7 @@
             <div class="well bs-component">
               <h:form>
                 <fieldset>
-                  <legend>Find Task</legend>
+                  <legend>Create Task</legend>
                   <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
@@ -172,36 +173,31 @@
 										<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 										<h:inputText type="text" class="form-control"
 											value="#{AdministratorBean.name}" id="name" required="true"
-											requiredMessage="Enter Name of Task" style="width: 60%;"/>
+											requiredMessage="Enter Name of Task" />
+											 <br></br>
 											<h:message style="color:red;" for="name" />
                     </div>
                     </div>
                   </div>
+                   <br></br>
                   <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Type</label>
+                   <br></br>
+                      <br></br>
+                         <br></br>
+                    <label for="inputPassword" class="col-lg-2 control-label">File</label>
                     <div class="col-lg-10">
-                      	<rich:select defaultLabel="Select type"
-											value="#{AdministratorBean.findOption}">
-											<f:selectItem itemValue="ID" itemLabel="ID" />
-											<f:selectItem itemValue="Permission" itemLabel="Permission" />
-											<f:selectItem itemValue="Owner" itemLabel="Owner" />
-											<f:selectItem itemValue="Name" itemLabel="Name" />
-											<f:selectItem itemValue="State" itemLabel="State" />
-										</rich:select>
-                     
-                    </div>
-                  </div>
-                  <div class="form-group">
-                  <label for="inputPassword" class="col-lg-2 control-label">File</label><div style="margin-left:100px;">
-                   <rich:fileUpload
+                      	<rich:fileUpload
 										fileUploadListener="#{AdministratorBean.listener}" id="upload"
 										maxFilesQuantity="1" />
+                     <h:outputText value="Upload some file" style="color:red"
+										rendered="#{AdministratorBean.renderUpload}" />
+                    </div>
                   </div>
                
-               </div>
-                  
+                  <br></br>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
+                                 <br></br>
                      <h:commandButton class="btn btn-default" value="Create task"
 										action="#{AdministratorBean.createTask()}" />
                     </div>

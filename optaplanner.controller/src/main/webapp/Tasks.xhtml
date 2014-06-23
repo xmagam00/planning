@@ -110,12 +110,12 @@
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
-							<li><h:outputLabel>
+							<li style="position:relative;left:-50px;">
 									<i class="fa fa-user fa-fw">User:</i>
-								</h:outputLabel></li>
+								</li>
 							<li><h:outputText
-									value="#{AdministratorBean.loggedUsername}" /></li>
-							<li style="visibility: hidden;">Pomocny Text velmi dlhy</li>
+									value="#{AdministratorBean.loggedUsername}" style="font-weight:bold;" /></li>
+							<li style="display:none;">Pomocny Text velmi dlhy</li>
 							<li><h:commandButton class="btn btn-default btn-lg"
 									value="  Logout" action="#{AdministratorBean.logout}"></h:commandButton></li>
 
@@ -239,21 +239,7 @@
 								<h:dataTable value="#{AdministratorBean.task}" var="o"
 									class="table table-hover" id="editUser"
 									rows="#{AdministratorBean.renderRow}">
-
-									<h:column>
-
-										<f:facet name="header">
-
-											<h:commandLink action="#{AdministratorBean.sortById}">
-
-												<h:outputText value="ID"></h:outputText>
-											</h:commandLink>
-
-										</f:facet>
-										<h:outputText value="#{o.id}"></h:outputText>
-
-									</h:column>
-									<h:column>
+	<h:column>
 
 										<f:facet name="header">
 
@@ -267,6 +253,20 @@
 										<h:outputText value="#{o.name}" />
 
 									</h:column>
+									<h:column>
+
+										<f:facet name="header">
+
+											<h:commandLink action="#{AdministratorBean.sortByType}">
+
+												<h:outputText value="Type"></h:outputText>
+											</h:commandLink>
+
+										</f:facet>
+										<h:outputText value="#{o.type}"></h:outputText>
+
+									</h:column>
+								
 
 									<h:column>
 
@@ -358,7 +358,7 @@
 											</h:column>
 										</f:facet>
 										<h:panelGrid columns="6">
-
+								
 											<h:commandButton class="btn btn-default" value="Edit Task"
 												action="#{AdministratorBean.editXmlFile(o)}"
 												rendered="#{o.renderEdit}" />

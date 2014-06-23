@@ -6,6 +6,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import org.jboss.optaplanner.controller.database.Operation;
 import org.jboss.optaplanner.controller.login.UserRole;
@@ -38,7 +42,12 @@ public class LoginBean extends BaseAuthenticator {
 	private boolean admin = false;
 	private boolean reader = false;
 	private boolean planner = false;
+	private static final String PERSISTENCE_UNIT_NAME = "optaplanner";
 
+	private static EntityManagerFactory factory;
+
+	
+	private EntityManager eManager;
 	public void setReader(boolean reader) {
 		this.reader = reader;
 	}
@@ -110,7 +119,7 @@ public class LoginBean extends BaseAuthenticator {
 		} else if (roles.equals("Planner")) {
 			setPlanner(true);
 		}
-
+		
 		return;
 
 	}
@@ -246,6 +255,7 @@ public class LoginBean extends BaseAuthenticator {
 		});
 		//success authentification
 		setStatus(AuthenticationStatus.SUCCESS);
+	
 
 	}
 

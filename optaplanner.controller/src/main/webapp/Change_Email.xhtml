@@ -109,13 +109,14 @@
 
 						</ul>
 
+						
 						<ul class="nav navbar-nav navbar-right">
-							<li><h:outputLabel>
+							<li style="position:relative;left:-50px;">
 									<i class="fa fa-user fa-fw">User:</i>
-								</h:outputLabel></li>
+								</li>
 							<li><h:outputText
-									value="#{AdministratorBean.loggedUsername}" /></li>
-							<li style="visibility: hidden;">Pomocny Text velmi dlhy</li>
+									value="#{AdministratorBean.loggedUsername}" style="font-weight:bold;" /></li>
+							<li style="display:none;">Pomocny Text velmi dlhy</li>
 							<li><h:commandButton class="btn btn-default btn-lg"
 									value="  Logout" action="#{AdministratorBean.logout}"></h:commandButton></li>
 

@@ -46,7 +46,7 @@ public class Task {
 	@JoinColumn(name = "organization", referencedColumnName = "idOrganization")
 	private Organization organization;
 	
-	@NotNull
+	
 	@ManyToOne
 	@JoinColumn(name = "type", referencedColumnName = "idType")
 	private Type type;
@@ -123,7 +123,7 @@ public class Task {
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
-	
+	/*
 	public Type getType()
 	{
 		return type;
@@ -132,6 +132,6 @@ public class Task {
 	public void setType(Type set)
 	{
 		this.type = set;
-	}
+	}*/
 
 }

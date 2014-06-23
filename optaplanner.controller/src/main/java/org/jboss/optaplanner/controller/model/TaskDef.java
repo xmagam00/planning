@@ -23,12 +23,13 @@ public class TaskDef implements Serializable {
 	private String renderDelete;
 	private String renderCommand;
 	private String link;
+	private String type;
 
 	public TaskDef(String id, String name, String state, String progress,
 			String estimatedTime, String ifPublic, String owner,
 			String xmlfile, String renderStop, String renderRun,
 			String renderPublish, String renderUnpublish, String renderEdit,
-			String renderDelete, String renderCommand) {
+			String renderDelete, String renderCommand, String type) {
 		this.id = id;
 		this.name = name;
 		this.state = state;
@@ -45,6 +46,7 @@ public class TaskDef implements Serializable {
 		this.renderUnpublish = renderUnpublish;
 		this.renderCommand = renderCommand;
 		this.link = "task/" + id ;
+		this.type = type;
 	}
 
 	public String getId() {
@@ -182,6 +184,16 @@ public class TaskDef implements Serializable {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+	
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+	
+	public String getType()
+	{
+		return type;
 	}
 
 }

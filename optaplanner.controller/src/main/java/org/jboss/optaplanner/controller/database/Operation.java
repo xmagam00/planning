@@ -16,6 +16,7 @@ import org.jboss.optaplanner.controller.model.UserDef;
 import org.jboss.optaplanner.entities.Organization;
 import org.jboss.optaplanner.entities.Task;
 import org.jboss.optaplanner.entities.TaskStatus;
+import org.jboss.optaplanner.entities.Type;
 import org.jboss.optaplanner.entities.User;
 
 /**
@@ -214,7 +215,7 @@ public class Operation {
 	 */
 	public List<TaskDef> getAllTasks() {
 		Query q = eManager
-				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile from Task t,User u where t.user = u.idUser");
+				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile, f.name from Task t,User u, Type f where t.user = u.idUser and t.type = f.idType");
 
 		List<TaskDef> todoList = q.getResultList();
 
@@ -238,7 +239,7 @@ public class Operation {
 		Organization test = (Organization) user.getOrganization();
 
 		Query query2 = eManager
-				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile from Task t,User u where t.user = u.idUser and t.organization="
+				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile, f.name from Task t,User u, Typef where t.user = u.idUser and t.type = f.idType and t.organization="
 						+ test.getIdOrganization());
 		List<TaskDef> todoList = query2.getResultList();
 		return todoList;
@@ -618,9 +619,27 @@ public class Operation {
 	}
 	
 	public String getUserRole(String Username) {
-		Query q = eManager.createQuery("select  t.role from User t where  t.username=" + Username);
+		Query q = eManager.createQuery("select  role from User where  username='" + Username+"'");
 		Object todoList = q.getSingleResult();
 		return todoList.toString();
+	}
+	
+	/**
+	 * Create new type of planning problem
+	 * @param name
+	 * @param conf
+	 * @param drools
+	 */
+	public void createType(String name, String conf, String drools)
+	{
+		eManager.getTransaction().begin();
+		Type type = new Type();
+		type.setName(name);
+		type.setDrools(drools);
+		type.setConfiguration(conf);
+
+		eManager.persist(type);
+		eManager.getTransaction().commit();
 	}
 	
 	
