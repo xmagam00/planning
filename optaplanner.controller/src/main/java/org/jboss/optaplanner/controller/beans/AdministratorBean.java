@@ -53,15 +53,13 @@ public class AdministratorBean {
 	private List<OrganizationDef> organizations;
 	private List<OrganizationDef> oldOrganizations;
 
-	
-
 	private String password;
 
 	private int page = 1;
 	private int page2 = 1;
 	private int page3 = 1;
 	private String pass;
-
+	private String typeDef;
 	private String passwordValidate = "true";
 
 	private int test = 1;
@@ -101,12 +99,9 @@ public class AdministratorBean {
 	private String organization;
 
 	private List<String> editableOrganizations;
+	private List<String> types;
 
 	private List<String> editableOwner;
-
-
-
-	
 
 	private String renderArea;
 
@@ -122,7 +117,7 @@ public class AdministratorBean {
 	private String tab = "Tasks";
 
 	private String renderTab;
-	
+
 	private String renderTab1;
 	private String renderTab2;
 	private String findString;
@@ -152,8 +147,6 @@ public class AdministratorBean {
 	private String renderEmail;
 
 	private String renderOrganization;
-
-	
 
 	private boolean findOperation2 = false;
 	private String renderRole;
@@ -264,23 +257,18 @@ public class AdministratorBean {
 			String result = op.getUserById(Long.parseLong(user.getId()));
 			// show logged username
 			setLoggedUsername(result);
-		
-			 roleLogged = op.getUserRole(getLoggedUsername());
-			if (roleLogged.equals("Reader"))
-			{
+
+			roleLogged = op.getUserRole(getLoggedUsername());
+			if (roleLogged.equals("Reader")) {
 				setRenderTab1("false");
-			}
-			else
-			{
+			} else {
 				setRenderTab1("true");
 			}
-			if (roleLogged.equals("Administrator"))
-			{
+			if (roleLogged.equals("Administrator")) {
 				setRenderTab2("true");
-			}
-			else{
-			setRenderTab2("false");
-			
+			} else {
+				setRenderTab2("false");
+
 			}
 			System.out.println(roleLogged);
 			organizations = new ArrayList<OrganizationDef>();
@@ -298,21 +286,17 @@ public class AdministratorBean {
 			}
 			// get all tasks
 			List<TaskDef> resultsTask = new ArrayList<TaskDef>();
-			if (roleLogged.equals("Administrator"))
-			{	
+			if (roleLogged.equals("Administrator")) {
 				resultsTask = op.getAllTasks();
 			}
-			
-			else
-			{
-				 resultsTask = op.selectTaskByUserWithOrganization(getLoggedUsername());
+
+			else {
+				resultsTask = op
+						.selectTaskByUserWithOrganization(getLoggedUsername());
 			}
-			if (roleLogged.equals("Reader"))
-			{
+			if (roleLogged.equals("Reader")) {
 				unrenderCommand = "false";
-			}
-			else
-			{
+			} else {
 				unrenderCommand = "true";
 			}
 			for (Object item : resultsTask) {
@@ -325,23 +309,21 @@ public class AdministratorBean {
 						renderPublish(obj[5].toString(), obj[2].toString()),
 						renderUnpublish(obj[5].toString()), renderEdit(obj[2]
 								.toString()), renderDelete(obj[2].toString()),
-						renderCommand(obj[5].toString()),obj[8].toString()));
+						renderCommand(obj[5].toString()), obj[8].toString()));
 
 			}
-			int index=0;
-			if (unrenderCommand.equals("false")){
-			for (Object item : task) {
-				
+			int index = 0;
+			if (unrenderCommand.equals("false")) {
+				for (Object item : task) {
+
 					task.get(index).setRenderRun("false");
 					task.get(index).setRenderStop("false");
 					task.get(index).setRenderEdit("false");
 					task.get(index).setRenderDelete("false");
-				
-			
-			
-				index++;
 
-			}
+					index++;
+
+				}
 			}
 			// get all users
 			List<UserDef> resultsUser = op.getAllUsers();
@@ -1039,6 +1021,21 @@ public class AdministratorBean {
 	}
 
 	/**
+	 * This method get types of planning problem
+	 */
+	public void updateTypes() {
+
+		this.types = null;
+		List<String> org = new ArrayList<String>();
+		List<String> resultsOrg = op.getAllTypes();
+		for (String item : resultsOrg) {
+
+			org.add(item);
+		}
+		this.types = org;
+	}
+
+	/**
 	 * method get actual users from databases
 	 */
 	public void updateEditableUsers() {
@@ -1084,16 +1081,15 @@ public class AdministratorBean {
 		List<TaskDef> org = new ArrayList<TaskDef>();
 		List<TaskDef> resultsOrg = new ArrayList<TaskDef>();
 		// get all tasks
-					
-					if (roleLogged.equals("Administrator"))
-					{	
-						resultsOrg = op.getAllTasks();
-					}
-					
-					else
-					{
-						resultsOrg = op.selectTaskByUserWithOrganization(getLoggedUsername());
-					}
+
+		if (roleLogged.equals("Administrator")) {
+			resultsOrg = op.getAllTasks();
+		}
+
+		else {
+			resultsOrg = op
+					.selectTaskByUserWithOrganization(getLoggedUsername());
+		}
 		for (Object item : resultsOrg) {
 			Object[] obj = (Object[]) item;
 			org.add(new TaskDef(obj[0].toString(), obj[1].toString(), obj[2]
@@ -1104,23 +1100,21 @@ public class AdministratorBean {
 							obj[5].toString(), obj[2].toString()),
 					renderUnpublish(obj[5].toString()), renderEdit(obj[2]
 							.toString()), renderDelete(obj[2].toString()),
-					renderCommand(obj[5].toString()),obj[8].toString()));
+					renderCommand(obj[5].toString()), obj[8].toString()));
 
 		}
-		int index=0;
-		if (unrenderCommand.equals("false")){
-		for (Object item : org) {
-			
+		int index = 0;
+		if (unrenderCommand.equals("false")) {
+			for (Object item : org) {
+
 				org.get(index).setRenderRun("false");
 				org.get(index).setRenderStop("false");
 				org.get(index).setRenderEdit("false");
 				org.get(index).setRenderDelete("false");
-			
-		
-		
-			index++;
 
-		}
+				index++;
+
+			}
 		}
 
 		setPage(test);
@@ -1410,9 +1404,10 @@ public class AdministratorBean {
 	 */
 	public void editXmlFile(TaskDef task) {
 		setRenderTab("true");
-		setLoadFunction("$('#MyTab li:eq(2) a').tab('show')");
+
 		setState(task.getState());
 		setOwner(task.getOwner());
+		setTypeDef(task.getType());
 		editableOwner = null;
 		editableOwner = new ArrayList<String>();
 		List<UserDef> resultsUser = op.getAllUsers();
@@ -1421,7 +1416,15 @@ public class AdministratorBean {
 			editableOwner.add(obj[1].toString());
 
 		}
+		types = null;
+		types = new ArrayList<String>();
+		List<String> resultTypes = op.getAllTypes();
+		for (String item : resultTypes) {
 
+			types.add(item);
+
+		}
+		setEditTask();
 		setXmlFile(task.getXmlFile());
 		setIdTask(task.getId());
 		setRenderPoll("false");
@@ -1667,7 +1670,8 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
+							renderCommand(task.get(index).getIfPublic()), task
+									.get(index).getType()));
 
 				}
 				index++;
@@ -1690,7 +1694,8 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
+							renderCommand(task.get(index).getIfPublic()), task
+									.get(index).getType()));
 
 				}
 
@@ -1716,7 +1721,8 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
+							renderCommand(task.get(index).getIfPublic()), task
+									.get(index).getType()));
 
 				}
 
@@ -1741,7 +1747,8 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
+							renderCommand(task.get(index).getIfPublic()), task
+									.get(index).getType()));
 
 				}
 				index++;
@@ -1764,7 +1771,8 @@ public class AdministratorBean {
 							renderUnpublish(task.get(index).getIfPublic()),
 							renderEdit(task.get(index).getState()),
 							renderDelete(task.get(index).getState()),
-							renderCommand(task.get(index).getIfPublic()),task.get(index).getType()));
+							renderCommand(task.get(index).getIfPublic()), task
+									.get(index).getType()));
 
 				}
 				index++;
@@ -1861,7 +1869,8 @@ public class AdministratorBean {
 					renderUnpublish(this.task.get(2).getIfPublic()),
 					renderEdit(this.task.get(index).getState()),
 					renderDelete(this.task.get(index).getState()),
-					renderCommand(this.task.get(index).getIfPublic()),this.task.get(index).getType()));
+					renderCommand(this.task.get(index).getIfPublic()),
+					this.task.get(index).getType()));
 			index++;
 
 		}
@@ -2090,6 +2099,27 @@ public class AdministratorBean {
 
 	}
 
+	public void setCreateType() {
+		setActiveEdit("");
+		setActiveTask("active");
+		setActiveUsers("");
+		setActiveOrganization("");
+		setActiveProperties("");
+		setNieco("");
+		setRenderTab("false");
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) context
+				.getExternalContext().getResponse();
+		try {
+			response.sendRedirect("Create_Type.xhtml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
 	public void setCreateOrg() {
 		setActiveEdit("");
 		setActiveTask("");
@@ -2233,6 +2263,26 @@ public class AdministratorBean {
 				.getExternalContext().getResponse();
 		try {
 			response.sendRedirect("Tasks.xhtml");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	public void setEditTask() {
+		setActiveEdit("active");
+		setActiveTask("");
+		setActiveUsers("");
+		setActiveOrganization("");
+		setActiveProperties("");
+		setNieco("");
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) context
+				.getExternalContext().getResponse();
+		try {
+			response.sendRedirect("Edit_Task.xhtml");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -2386,7 +2436,6 @@ public class AdministratorBean {
 
 	}
 
-	
 	public void createTask() {
 		setRenderTab("false");
 		setLoadFunction("$('#MyTab li:eq(1) a').tab('show')");
@@ -2398,14 +2447,15 @@ public class AdministratorBean {
 			return;
 		}
 
-		op.createTask(getName(), getXmlFile(), getLoggedUsername());
+		op.createTask(getName(), getXmlFile(), getLoggedUsername(),
+				getTypeDef());
 		setXmlFile("");
 		setName("");
 
 		setRenderPoll("true");
 
 	}
-	
+
 	/**
 	 * Method create new type of planning problem
 	 */
@@ -2419,42 +2469,39 @@ public class AdministratorBean {
 		String confFile = new String();
 		String droolsFile = new String();
 		Iterator<String> iterator = listConf.iterator();
-		while(iterator.hasNext()){
-			  String element = (String) iterator.next();
-			  items++;
-			}
-		System.out.println(items);
-		if (items != 2)
-		{
+		while (iterator.hasNext()) {
+			String element = (String) iterator.next();
+			items++;
+		}
+
+		if (items != 2) {
 			setRenderUpload("true");
 			listConf = new ArrayList<String>();
 			return;
 		}
-		items=0;
-		while(iterator.hasNext()){
-			  String element = (String) iterator.next();
-			 if (element.toLowerCase().contains(confStr.toLowerCase()))
-			 {
-				 
-				 break;
-				 
-			 }
-			 items++;
+		items = 0;
+		Iterator<String> iterator2 = listConf.iterator();
+		while (iterator2.hasNext()) {
+			String element = (String) iterator2.next();
+			if (element.toLowerCase().contains(confStr.toLowerCase())) {
+
+				break;
+
 			}
-		if (items == 0)
-		{
-			confFile = listConf.get(items);
-			droolsFile = listConf.get(items+1);
+			items++;
 		}
-		else
-		{
+		if (items == 0) {
 			confFile = listConf.get(items);
-			droolsFile = listConf.get(items-1);
+			droolsFile = listConf.get(items + 1);
+		} else {
+			confFile = listConf.get(0);
+			droolsFile = listConf.get(1);
 		}
+		// System.out.println(confFile);
 		op.createType(getName(), confFile, droolsFile);
 		listConf = new ArrayList<String>();
 		setName("");
-		
+
 		setRenderPoll("true");
 
 	}
@@ -2556,14 +2603,12 @@ public class AdministratorBean {
 		setXmlFile(new String(item.getData()));
 
 	}
-	
+
 	public void listenerType(FileUploadEvent event) throws Exception {
-		
+
 		UploadedFile item = event.getUploadedFile();
-		
-		
+
 		listConf.add(new String(item.getData()));
-		
 
 	}
 
@@ -2603,9 +2648,9 @@ public class AdministratorBean {
 		setOrgPoll("true");
 		setPage3(test);
 		List<OrganizationDef> org = new ArrayList<OrganizationDef>();
-		
+
 		List<OrganizationDef> resultsOrg = op.getOrganizations();
-		
+
 		for (Object item : resultsOrg) {
 			Object[] obj = (Object[]) item;
 			org.add(new OrganizationDef(obj[0].toString(), obj[1].toString(),
@@ -2785,10 +2830,7 @@ public class AdministratorBean {
 		setRenderPasswordValidate2("false");
 		setRenderPasswordNot2("false");
 	}
-	
-	
-	
-	
+
 	public void validateEmail() {
 		setLoadFunction("$('#MyTab li:eq(4) a').tab('show')");
 		setRenderEmail("false");
@@ -2801,7 +2843,6 @@ public class AdministratorBean {
 
 		if (getPasswordValidate() == null || getPasswordValidate().isEmpty()) {
 
-			
 		}
 
 		if (!getEmail().equals(getPasswordValidate())) {
@@ -2943,7 +2984,7 @@ public class AdministratorBean {
 	public String getRenderTab() {
 		return renderTab;
 	}
-	
+
 	public void setRenderTab1(String renderTab) {
 		this.renderTab1 = renderTab;
 	}
@@ -2951,6 +2992,7 @@ public class AdministratorBean {
 	public String getRenderTab1() {
 		return renderTab1;
 	}
+
 	public void setRenderTab2(String renderTab) {
 		this.renderTab2 = renderTab;
 	}
@@ -3449,8 +3491,6 @@ public class AdministratorBean {
 		return activeProperties;
 	}
 
-	
-
 	public void setRenderEmailValidate(String name) {
 		this.renderEmailValidate = name;
 	}
@@ -3466,12 +3506,21 @@ public class AdministratorBean {
 	public String getRenderEmailNot() {
 		return renderEmailNot;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void setTypes(List<String> set) {
+		this.types = set;
+	}
+
+	public List<String> getTypes() {
+		return types;
+	}
+
+	public void setTypeDef(String set) {
+		this.typeDef = set;
+	}
+
+	public String getTypeDef() {
+		return typeDef;
+	}
+
 }

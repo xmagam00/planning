@@ -48,7 +48,7 @@ public class Operation {
 	 * @param urlflag
 	 * @return
 	 */
-	public void createTask(String name, String xmlfile, String username) {
+	public void createTask(String name, String xmlfile, String username,String type) {
 		Query query = eManager
 				.createQuery("select idUser from User where username='"
 						+ username + "'");
@@ -62,10 +62,17 @@ public class Operation {
 						+ username + "'");
 		Object idOrganization = query.getSingleResult();
 		Organization org = (Organization) (idOrganization);
-
+		
+		query = eManager
+				.createQuery("select idType from Type where name='"
+						+ type + "'");
+		Object idType = query.getSingleResult();
+		Type type2 = (Type) (idType);
+		
 		Organization orgtab = eManager.getReference(Organization.class,
 				org.getIdOrganization());
-
+		
+		Type typetab = eManager.getReference(Type.class,type2.getIdType());
 		eManager.getTransaction().begin();
 		Task task = new Task();
 		task.setXmlFile(xmlfile);
@@ -76,7 +83,7 @@ public class Operation {
 		task.setUser(usertab);
 		task.setName(name);
 		task.setOrganization(orgtab);
-
+		task.setType(typetab);
 		eManager.persist(task);
 		eManager.getTransaction().commit();
 
@@ -239,7 +246,7 @@ public class Operation {
 		Organization test = (Organization) user.getOrganization();
 
 		Query query2 = eManager
-				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile, f.name from Task t,User u, Typef where t.user = u.idUser and t.type = f.idType and t.organization="
+				.createQuery("select t.id,t.name,t.status,t.progress,t.eta,t.pub, u.username,t.xmlFile, f.name from Task t,User u, Type f where t.user = u.idUser and t.type = f.idType and t.organization="
 						+ test.getIdOrganization());
 		List<TaskDef> todoList = query2.getResultList();
 		return todoList;
@@ -642,6 +649,32 @@ public class Operation {
 		eManager.getTransaction().commit();
 	}
 	
+	/**
+	 * Method get all types of planning problems
+	 */
+	public List<String> getAllTypes()
+	{
+		Query q = eManager
+				.createQuery("select name from Type");
+
+		List<String> todoList = q.getResultList();
+
+		return todoList;
+	}
+	
+	public String getOrganizationByIdTask(String id)
+	{
+		Task task = eManager.getReference(Task.class,
+				Long.parseLong(id.toString()));
+		Organization org = task.getOrganization();
+		System.out.println(org.getIdOrganization());
+		return ""+org.getIdOrganization();
+	}
+	
+	public String getOrganizationByIdUser(String id)
+	{
+		return null;
+	}
 	
 
 }
