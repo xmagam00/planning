@@ -39,68 +39,56 @@
 			<ui:insert  >
 		  <ui:include src="template.xhtml" />
 		</ui:insert>
-<br></br>
-<br></br>
-<br></br>
 
-		 <div class="row" >
-          <div class="col-lg-6" >
-            <div class="well bs-component" >
-              <h:form>
-                <fieldset>
-                  <legend>Find Task</legend>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
-                    <div class="col-lg-10">
-                      
-											<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-search"></i></span>
-										<h:inputText type="text" class="form-control" required="true"
-											requiredMessage="Select string to find" id="taskOption"
+<br></br>
+<br></br>
+<h:form>
+<div class="row">
+    <div class="col-md-4">
+        
+                <label>String to find</label>
+                <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span><h:inputText type="text" class="form-control" required="true"
+											requiredMessage="Select string to find" id="taskOption2"
 											value="#{AdministratorBean.nieco}" style="width: 60%;"/>
-									</div>
-									<h:message for="taskOption" style="color:red;" />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Type</label>
-                    <div class="col-lg-10">
-                    <br></br>
-                      	<rich:select defaultLabel="Select type"
-											value="#{AdministratorBean.findOption}" required="true" requiredMessage="Select Type" id="findId">
-											<f:selectItem itemValue="ID" itemLabel="ID" />
+											</div>
+           <h:message for="taskOption2" style="color:red;" />
+            </div>
+            <div class="col-md-4">
+                <label>Option</label>
+               <rich:select defaultLabel="Select type" style="position:relative;top:10px;left:-30px;"
+											value="#{AdministratorBean.findOption}" required="true" requiredMessage="Select Type" id="findId" >
+											
 											<f:selectItem itemValue="Permission" itemLabel="Permission" />
 											<f:selectItem itemValue="Owner" itemLabel="Owner" />
 											<f:selectItem itemValue="Name" itemLabel="Name" />
 											<f:selectItem itemValue="State" itemLabel="State" />
 										</rich:select>
-										
-                     
-                    </div>
-                    <h:message for="findId" style="color:red;" />
-                  </div>
-                  
-               
-                    <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                       <br></br>
-                     <h:commandButton class="btn btn-default btn-lg" value="Find"
-											action="#{AdministratorBean.findList()}" type="submit"/>
-											<h:commandButton class="btn btn-default btn-lg" style="margin-left:10px;"
-												value="Cancel"
-												action="#{AdministratorBean.showActionTask()}" />
-                    </div>
-                  <h:outputText value="#{AdministratorBean.result2}"
-									style="font:bold;"
-									rendered="#{AdministratorBean.renderResult2}" />
-                  </div>
-                </fieldset>
-                </h:form>
+								<h:message for="findId" style="color:red;" />
             </div>
-          </div>
-          </div>
-        
-</div>
+            <div class="col-md-4" style="position:relative;top:20px;">
+    
+             <h:commandLink class="btn btn-default btn-lg"  style="color:black;"
+             data-toggle="tooltip" data-placement="left" title="Find"
+             
+									action="#{AdministratorBean.findList()}">
+									<i class="fa fa-search fa-lg"></i>
+									</h:commandLink>
+											<h:commandLink class="btn btn-default btn-lg" style="margin-left:10px;color:black;"
+											   data-toggle="tooltip" data-placement="left" title="Cancel"
+												action="#{AdministratorBean.showActionTask()}" >
+												<i class="fa fa-times fa-lg"></i>
+                </h:commandLink>
+                   
+            </div>
+        </div>
+   
+<br></br>
+ <div class="row"><h:outputText value="#{AdministratorBean.result2}"
+											rendered="#{AdministratorBean.renderResult2}" />	</div>
+</h:form>
+</div>	
+<br></br>
 		<h:form>
 						<a4j:region>
 							<h:form>
@@ -120,6 +108,20 @@
 								<h:dataTable value="#{AdministratorBean.task}" var="o"
 									class="table table-hover" id="editUser"
 									rows="#{AdministratorBean.renderRow}">
+
+	<h:column>
+
+										<f:facet name="header">
+
+											
+												<h:outputText value="ID"></h:outputText>
+										
+
+										</f:facet>
+										<h:outputText value="#{o.id}"></h:outputText>
+
+									</h:column>
+
 	<h:column>
 
 										<f:facet name="header">

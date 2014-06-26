@@ -662,18 +662,22 @@ public class Operation {
 		return todoList;
 	}
 	
-	public String getOrganizationByIdTask(String id)
+	public String getOrganizationByIdTask(long id)
 	{
 		Task task = eManager.getReference(Task.class,
-				Long.parseLong(id.toString()));
+				id);
 		Organization org = task.getOrganization();
-		System.out.println(org.getIdOrganization());
+		
 		return ""+org.getIdOrganization();
 	}
 	
-	public String getOrganizationByIdUser(String id)
+	public String getOrganizationByIdUser(long id)
 	{
-		return null;
+		User user = eManager.getReference(User.class,
+				id);
+		Organization org = user.getOrganization();
+		
+		return ""+org.getIdOrganization();
 	}
 	
 

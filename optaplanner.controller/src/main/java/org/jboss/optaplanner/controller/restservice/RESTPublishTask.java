@@ -40,7 +40,7 @@ public class RESTPublishTask {
 		User user2 = identity.getUser();
 		
 		if (user2 == null) {
-			System.out.println("tu nemam byt");
+			
 			try {
 				xmlFile = op.getXmlFileName(id);
 				name = op.getNameOfTask(id);
@@ -74,6 +74,16 @@ public class RESTPublishTask {
 			name = op.getNameOfTask(id);
 			String result = op.getUserById(Long.parseLong(user.getId()));
 			userRole = op.getUserRoleByUsername(result);
+			String idTask = op.getOrganizationByIdTask(id);
+			String idUser= op.getOrganizationByIdUser(Long.parseLong(user.getId()));
+			if (idTask.equals(idUser))
+			{
+				permission = "true";
+			}
+			else
+			{
+				permission = "false";
+			}
 
 		/*} catch (Exception ex) {
 			System.out.println("Ze by nejaka chyba?");
@@ -91,7 +101,7 @@ public class RESTPublishTask {
 
 		} 
 		else if (userRole.equals("Reader") && (permission.equals("true")))
-		{  
+		{   System.out.println("tu mam byt");
 			response = "<!DOCTYPE html >\n <html>\n <head> \n <link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.css\"> \n <script language=\"javascript\" type=\"text/javascript\" src=\"js/jquery-2.1.0.js\"></script> \n <script language=\"javascript\" type=\"text/javascript\" src=\"js/bootstrap.js\"></script>  \n  \n  </head> \n <body style=\"background-color:#eee\"> <div style=\"margin:0 auto;text-align:center;width:900px;font-weight:bold;\"> <h1> "
 					+ name
 					+ "</h1> <div class=\"jumbotron\"> \n	<plaintext>"
@@ -102,13 +112,13 @@ public class RESTPublishTask {
 		}
 		else if (userRole.equals("Reader") && (permission.equals("false")))
 		{
-			System.out.println("tu mam byt");
+			System.out.println("tu nemam byt");
 			response = "";
 			return Response.status(200).entity(response).build();
 		}
 		
 		else if (userRole.equals("Planner") && (permission.equals("true")))
-		{
+		{ 	System.out.println("tu nemam byt nie som planner");
 			response = "<!DOCTYPE html >\n <html>\n <head> \n <link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.css\"> \n <script language=\"javascript\" type=\"text/javascript\" src=\"js/jquery-2.1.0.js\"></script> \n <script language=\"javascript\" type=\"text/javascript\" src=\"js/bootstrap.js\"></script>  \n  \n  </head> \n <body style=\"background-color:#eee\"> <div style=\"margin:0 auto;text-align:center;width:900px;font-weight:bold;\"> <h1> "
 					+ name
 					+ "</h1> <div class=\"jumbotron\"> \n	<plaintext>"
@@ -117,7 +127,7 @@ public class RESTPublishTask {
 			return Response.status(200).entity(response).build();
 		}
 		else
-		{
+		{System.out.println("tu nemam byt nie som planner");
 			response = "";
 			return Response.status(200).entity(response).build();
 		}

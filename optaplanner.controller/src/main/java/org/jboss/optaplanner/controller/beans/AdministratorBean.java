@@ -1335,6 +1335,22 @@ public class AdministratorBean {
 		return null;
 
 	}
+	
+	
+	public String dropAction() {
+		boolean end = false;
+		
+		if (findOperation3 == Boolean.FALSE) {
+
+			updateUsers();
+		} else {
+			findListOrganization();
+			setRenderUser("false");
+		}
+		// return to current page
+		return null;
+
+	}
 
 	/**
 	 * method set id user to be deleted
@@ -2017,6 +2033,31 @@ public class AdministratorBean {
 			updateOrganization();
 		} else {
 			setOrgPoll("false");
+
+		}
+		setRenderResult3("false");
+		setFindOption("");
+		setNieco("");
+		// return to current page
+		return null;
+
+	}
+	
+	
+	public String dropActionOrganization() {
+		boolean end = false;
+		setLoadFunction("$('#MyTab li:eq(3) a').tab('show')");
+		// get all existing value but set "editable" to false
+	
+		if (findOperation2 == Boolean.FALSE) {
+
+			setOrgPoll("true");
+			
+
+			updateOrganization();
+		} else {
+			setOrgPoll("false");
+			findListOrg();
 
 		}
 		setRenderResult3("false");

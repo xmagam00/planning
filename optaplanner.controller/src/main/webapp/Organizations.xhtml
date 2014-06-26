@@ -37,69 +37,62 @@
 			<ui:insert  >
 		  <ui:include src="template.xhtml" />
 		</ui:insert>
-<br></br>
-<br></br>
-<br></br>
+		
+		
+	
 
-		 <div class="row" >
-          <div class="col-lg-6" >
-            <div class="well bs-component" >
-              <h:form>
-                <fieldset>
-                  <legend>Find Organization</legend>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
-                    <div class="col-lg-10">
-                      
-											<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-search"></i></span>
-										<h:inputText type="text" class="form-control" required="true"
-											requiredMessage="Select string to find" id="taskOption"
+
+
+		
+
+<br></br>
+<br></br>
+<h:form>
+<div class="row">
+    
+            <div class="col-md-4">
+                <label>String to find</label>
+                <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search fa-lg"></i></span><h:inputText type="text" class="form-control" required="true"
+											requiredMessage="Select string to find" id="taskOption2"
 											value="#{AdministratorBean.nieco}" style="width: 60%;"/>
-									</div>
-									<h:message for="taskOption" style="color:red;" />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Type</label>
-                    <div class="col-lg-10">
-                    <br></br>
-                      	<rich:select defaultLabel="Select option" required="true"
-									requiredMessage="Enter option"
-									value="#{AdministratorBean.findOption}" id="Nieco222">
-									<f:selectItem itemValue="Username" itemLabel="Username" />
-									<f:selectItem itemValue="Organization" itemLabel="Organization" />
-									<f:selectItem itemValue="Email" itemLabel="Email" />
-									<f:selectItem itemValue="Role" itemLabel="Role" />
-								</rich:select>
-								<br></br>
-								<h:message for="Nieco222" style="color:red;" />
-										
-                     
-                    </div>
-                    <h:message for="findId" style="color:red;" />
-                  </div>
-                  
-               
-                  <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                       <br></br>
-                     <h:commandButton class="btn btn-default btn-lg" value="Find"
-									action="#{AdministratorBean.findListOrganization()}"/>
-											<h:commandButton class="btn btn-default btn-lg" style="margin-left:10px;"
-												value="Cancel"
-												aaction="#{AdministratorBean.showAllOrganizations()}" />
-                    </div>
-                    <h:outputText value="#{AdministratorBean.result}"
-											rendered="#{AdministratorBean.renderResult}" />
-                  </div>
-                </fieldset>
-                </h:form>
+											</div>
+           <h:message for="taskOption2" style="color:red;" />
             </div>
-          </div>
-          </div>
-        
-</div>
+            <div class="col-md-4">
+                <label>Option</label>
+               <rich:select defaultLabel="Select option" required="true"
+									requiredMessage="Enter option" style="position:relative;top:10px;left:-30px;"
+									value="#{AdministratorBean.findOption}" id="Nieco2226">
+									
+									<f:selectItem itemValue="Organization" itemLabel="Organization" />
+									
+								</rich:select>
+								<h:message for="Nieco2226" style="color:red;" />
+            </div>
+            <div class="col-md-4" style="position:relative;top:20px;">
+          
+             <h:commandLink class="btn btn-default btn-lg"  style="color:black;"
+             data-toggle="tooltip" data-placement="left" title="Find"
+             
+									action="#{AdministratorBean.findListOrg()}">
+									<i class="fa fa-search fa-lg"></i>
+									</h:commandLink>
+											<h:commandLink class="btn btn-default btn-lg" style="margin-left:10px;color:black;"
+											   data-toggle="tooltip" data-placement="left" title="Cancel"
+												action="#{AdministratorBean.showAllOrganizations()}" >
+												<i class="fa fa-times fa-lg"></i>
+                </h:commandLink>
+                   
+            </div>
+        </div>
+
+<br></br>
+ <div class="row"><h:outputText value="#{AdministratorBean.result}"
+											rendered="#{AdministratorBean.renderResult}" />	</div>
+</h:form>
+</div>	
+<br></br>
 		<h:form>
 						<a4j:region>
 							<h:form>
@@ -113,6 +106,7 @@
 					<h:form>
 						<div class="container">
 							<div class="table-reponsive">
+							
 								<h:dataTable value="#{AdministratorBean.organizations}"
 									var="org" class="table table-hover"
 									rows="#{AdministratorBean.renderRow3}" id="tabOrg" row="5">
@@ -148,9 +142,31 @@
 
 										<f:facet name="header">Action</f:facet>
 
-										<h:panelGrid columns="3">
+										<h:panelGrid columns="5">
+										<h:commandLink class="btn btn-default" style="color:black;"
+												rendered="#{org.renderSave}" data-toggle="tooltip" data-placement="left" title="Drop Changes"
+												action="#{AdministratorBean.dropActionOrganization}" >
+												<i class="fa fa-times fa-lg"></i>
+												</h:commandLink>
 											<h:commandLink class="btn btn-default" style="color:black;"
 												rendered="#{org.renderSave}" data-toggle="tooltip" data-placement="left" title="Save Changes"
+												action="#{AdministratorBean.saveActionOrganization}" >
+												<i class="fa fa-save fa-lg"></i>
+												</h:commandLink>
+												<h:commandLink class="btn btn-default" style="color:black;visibility:hidden;;"
+												rendered="#{org.renderSave}" data-toggle="tooltip" data-placement="left" title="Save Changes"
+												action="#{AdministratorBean.saveActionOrganization}" >
+												<i class="fa fa-save fa-lg"></i>
+												</h:commandLink>
+												
+												<h:commandLink class="btn btn-default" style="color:black;visibility:hidden;;"
+												rendered="#{not org.renderSave}" data-toggle="tooltip" data-placement="left" title="Save Changes"
+												action="#{AdministratorBean.saveActionOrganization}" >
+												<i class="fa fa-save fa-lg"></i>
+												</h:commandLink>
+												
+												<h:commandLink class="btn btn-default" style="color:black;visibility:hidden;;"
+												rendered="#{not org.renderSave}" data-toggle="tooltip" data-placement="left" title="Save Changes"
 												action="#{AdministratorBean.saveActionOrganization}" >
 												<i class="fa fa-save fa-lg"></i>
 												</h:commandLink>

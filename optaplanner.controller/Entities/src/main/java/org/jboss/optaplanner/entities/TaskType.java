@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * @author martin
  *
  */
-public class Type {
+public class TaskType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idType;
@@ -22,8 +22,7 @@ public class Type {
 	private String name;
 	@NotNull
 	private String configuration;
-	@NotNull
-	private String drools;
+	
 
 	public long getIdType() {
 		return idType;
@@ -41,15 +40,7 @@ public class Type {
 		this.name = NameOfOrganization;
 	}
 	
-	public void setDrools(String drools)
-	{
-		this.drools = drools;
-	}
 	
-	public String getDrools()
-	{
-		return drools;
-	}
 	
 	public void setConfiguration(String configuration)
 	{

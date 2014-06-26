@@ -28,7 +28,7 @@
     <class>org.jboss.optaplanner.entities.Organization</class>
     <class>org.jboss.optaplanner.entities.Task</class>
     <class>org.jboss.optaplanner.entities.User</class>
-   	 <class>org.jboss.optaplanner.entities.Type</class>
+   	 <class>org.jboss.optaplanner.entities.TaskType</class>
    	
     <properties>
 
