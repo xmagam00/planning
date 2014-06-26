@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "type")
+@Table(name = "tasktype")
 /**
  * entity class for table organization
  * @author martin
